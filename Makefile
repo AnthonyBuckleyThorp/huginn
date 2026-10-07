@@ -1,7 +1,10 @@
 APP := /Applications/Huginn.app
 BUILT := build/Build/Products/Release/Huginn.app
 
-.PHONY: project build install run clean
+.PHONY: setup project build install run clean
+
+setup:
+	@./scripts/setup.sh
 
 project:
 	xcodegen generate --quiet
