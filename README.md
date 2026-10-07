@@ -1,6 +1,6 @@
 # Huginn
 
-Menu bar screenshot markup for macOS. Ctrl+Space, drag, mark up, Space to copy. See [PRD.md](PRD.md).
+Menu bar screenshot markup for macOS. Ctrl+Space, drag, mark up, Space to copy. See the [PRD](docs/PRD.md).
 
 ## Install on a Mac
 

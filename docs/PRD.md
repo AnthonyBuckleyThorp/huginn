@@ -1,12 +1,12 @@
 # Huginn — Screenshot Markup Tool PRD
 
-Oct 6, 2026 · @Anthony
+Oct 6, 2026
 
 ## Overview
 
-Huginn is a personal macOS menu bar app: press Ctrl+Space, drag to capture part of the screen, mark it up with a red box or a pen, then press Space to copy it to the clipboard and close. The whole loop should take under five seconds and need no mouse trips to a toolbar.
+Huginn is a macOS menu bar app: press Ctrl+Space, drag to capture part of the screen, mark it up with a red box or a pen, then press Space to copy it to the clipboard and close. The whole loop should take under five seconds and need no mouse trips to a toolbar.
 
-The macOS built-in screenshot markup is too many steps for quick "look at this bit" shares into Slack, Notion and email. The Windows Snipping Tool flow is the benchmark. The app is for one user (Anthony), on his own Mac, and will not be distributed.
+The macOS built-in screenshot markup is too many steps for quick "look at this bit" shares into Slack, Notion and email. The Windows Snipping Tool flow is the benchmark. Huginn is built for personal use: it's installed by building from source on your own Mac, not packaged for wider distribution.
 
 ## Goals and non-goals
 
@@ -19,7 +19,7 @@ The macOS built-in screenshot markup is too many steps for quick "look at this b
 
 **Non-goals for v1**
 
-- Distribution to anyone else, App Store or notarisation.
+- Packaged distribution: App Store, Developer ID signing or notarisation.
 - Colour, thickness or style choices.
 - Arrows, text labels, blur or redaction.
 - A custom capture overlay (magnifier, window snapping beyond what macOS gives).
@@ -27,12 +27,12 @@ The macOS built-in screenshot markup is too many steps for quick "look at this b
 
 ## Core user flow
 
-1. Anthony presses **Ctrl+Space** from any app.
-2. The native macOS crosshair appears; he drags a rectangle. Esc at this stage cancels with nothing opened.
+1. The user presses **Ctrl+Space** from any app.
+2. The native macOS crosshair appears; they drag a rectangle. Esc at this stage cancels with nothing opened.
 3. The markup window opens immediately, showing the capture at its real size, with the rectangle tool active.
-4. He drags to draw red boxes, or presses **P** to switch to the pen and draw freehand circles or lines; **R** switches back. **Cmd+Z** undoes the last mark.
-5. He presses **Space**: the marked-up image goes to the clipboard, a PNG is saved to ~/Pictures/Screenshots, and the window closes.
-6. He pastes into Slack, Notion, email or anywhere else.
+4. They drag to draw red boxes, or press **P** to switch to the pen and draw freehand circles or lines; **R** switches back. **Cmd+Z** undoes the last mark.
+5. They press **Space**: the marked-up image goes to the clipboard, a PNG is saved to ~/Pictures/Screenshots, and the window closes.
+6. They paste into Slack, Notion, email or anywhere else.
 
 At any point in the markup window, **Esc** discards everything and closes, with no save and no clipboard change.
 
@@ -85,11 +85,11 @@ At any point in the markup window, **Esc** discards everything and closes, with 
 | Space | Markup window | Copy, save and close |
 | Esc | Markup window | Discard and close |
 
-Ctrl+Space is macOS's default "Select the previous input source" shortcut, so that must be switched off (see setup). Space and R/P will need rethinking only if a text tool is added later.
+Ctrl+Space is macOS's default "Select the previous input source" shortcut, so that must be switched off (`make setup` checks for this). Space and R/P will need rethinking only if a text tool is added later.
 
 ## Technical approach
 
-A native Swift app (SwiftUI app lifecycle, AppKit for the hotkey and markup window), targeting the current macOS release only. Claude Code writes, builds (via `xcodebuild`) and debugs it on Anthony's Mac.
+A native Swift app (SwiftUI app lifecycle, AppKit for the hotkey and markup window), targeting the current macOS release only. It's built from the command line with `xcodebuild`, and written and maintained with Claude Code.
 
 | Component | Approach | Notes |
 | --- | --- | --- |
@@ -101,24 +101,19 @@ A native Swift app (SwiftUI app lifecycle, AppKit for the hotkey and markup wind
 | Export | Render image + marks into a bitmap at the capture's pixel size | One PNG used for both clipboard and file |
 | Clipboard | `NSPasteboard` with PNG data | Pastes cleanly into Slack, Notion, Gmail |
 | Save | Write PNG to ~/Pictures/Screenshots | Folder created on first save |
+| Signing | Builder's own Apple Development certificate; team ID read from it at build time | Falls back to ad hoc signing if there's no certificate |
 
-To keep the project easy for Claude Code to edit, generate the Xcode project from a plain config file (e.g. XcodeGen) rather than hand-editing project files.
+The Xcode project is generated from `project.yml` with XcodeGen rather than checked in, which keeps it easy to edit.
 
-## One-off setup
+## Setup
 
-These are the only steps Anthony does by hand; Claude Code handles everything else.
+Installing on a Mac is covered in the [README](../README.md): install Xcode, add an Apple ID with an Apple Development certificate, then `make setup`. On first capture, macOS asks for Screen Recording permission.
 
-- [ ] Install Xcode from the Mac App Store and open it once to accept the licence.
-- [ ] Sign into his Apple ID in Xcode (Settings → Accounts) for free personal signing.
-- [ ] Install Claude Code on the Mac.
-- [ ] Untick "Select the previous input source" in System Settings → Keyboard → Keyboard Shortcuts → Input Sources.
-- [ ] On first capture, grant Screen Recording permission when prompted.
-
-Known friction: recent macOS versions periodically re-confirm Screen Recording permission. Signing every build with the same Apple ID stops macOS forgetting the permission between rebuilds.
+Known friction: recent macOS versions periodically re-confirm Screen Recording permission. Signing every build with the same certificate stops macOS forgetting the permission between rebuilds; ad hoc builds lose it each time.
 
 ## Acceptance criteria
 
-v1 is done when every box below passes on Anthony's Mac.
+v1 is done when every box below passes on the target Mac.
 
 - [ ] Ctrl+Space starts capture from Slack, Chrome, Notion and a full-screen app.
 - [ ] Esc during selection cancels with nothing opened or saved.
@@ -140,4 +135,4 @@ v1 is done when every box below passes on Anthony's Mac.
 - Colour and thickness choices.
 - Rebindable shortcuts in a settings window.
 - Recent-captures menu in the menu bar.
-- Sharing with colleagues, which needs a paid Apple Developer account (£79/year) and notarisation.
+- Signed, notarised downloads for people who don't want to build from source, which needs a paid Apple Developer account (£79/year).
