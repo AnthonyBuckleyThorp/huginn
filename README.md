@@ -20,6 +20,8 @@ Menu bar screenshot markup for macOS. Ctrl+Space, drag, mark up, Space to copy. 
 
 `make setup` checks everything else (XcodeGen, Apple's intermediate certificate, the Ctrl+Space input-source clash), says how to fix anything it can't, then builds, installs to /Applications and launches Huginn. It's safe to re-run.
 
+The build signs with the Apple Development certificate on whichever Mac it runs on, so there's nothing to edit for your own Apple ID.
+
 On the first Ctrl+Space, grant Screen Recording permission, reopen Huginn and try again.
 
 ## Update

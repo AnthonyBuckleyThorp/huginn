@@ -23,8 +23,8 @@ targets:
         INFOPLIST_KEY_CFBundleDisplayName: Huginn
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
         # Sign every build with the same Apple Development identity so macOS
-        # keeps the Screen Recording permission across rebuilds.
+        # keeps the Screen Recording permission across rebuilds. The Makefile
+        # supplies DEVELOPMENT_TEAM from the builder's own certificate.
         CODE_SIGN_STYLE: Manual
         CODE_SIGN_IDENTITY: Apple Development
-        DEVELOPMENT_TEAM: T32VYDF43A
         ENABLE_HARDENED_RUNTIME: NO
