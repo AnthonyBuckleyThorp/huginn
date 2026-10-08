@@ -34,3 +34,7 @@ git pull && make run
 | Cmd+Z / Shift+Cmd+Z | Undo / redo |
 | Space | Copy, save to ~/Pictures/Screenshots, close |
 | Esc | Discard and close |
+
+## Licence
+
+[MIT](LICENSE). No third-party code; the project file is generated with [XcodeGen](https://github.com/yonaskolb/XcodeGen).
