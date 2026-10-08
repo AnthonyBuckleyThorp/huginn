@@ -1,6 +1,15 @@
 # Huginn
 
-Menu bar screenshot markup for macOS. Ctrl+Space, drag, mark up, Space to copy. See the [PRD](docs/PRD.md).
+**A Snipping Tool–style screenshot flow for the Mac.** Press Ctrl+Space, drag over what matters, draw a red box or circle round it, press Space. The marked-up image is on your clipboard, ready to paste into Slack, Notion or email, and a PNG is saved to ~/Pictures/Screenshots. Under five seconds, all from the keyboard.
+
+For anyone who finds the built-in macOS screenshot markup too many clicks for a quick "look at this bit":
+
+- **One shortcut, one drag.** Uses the native macOS crosshair, any display, full Retina resolution.
+- **No toolbar.** R for a box, P for a pen, Cmd+Z to undo. Red, medium stroke, nothing to configure.
+- **Space to finish.** Copies, saves and closes in one keypress; Esc throws it away.
+- **Lives in the menu bar.** No Dock icon, launches at login, no Accessibility permission needed.
+
+Native Swift, no dependencies, macOS 26+. You build it from source with your own free Apple ID (see below). Design notes are in the [PRD](docs/PRD.md).
 
 ## Install on a Mac
 
