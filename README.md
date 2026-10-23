@@ -13,6 +13,8 @@ Native Swift, no dependencies, macOS 26+. You build it from source with your own
 
 ## Install on a Mac
 
+No Xcode? See [Without Xcode](#without-xcode) below.
+
 1. Install Xcode from the App Store, open it once and accept the licence.
 2. In Xcode → Settings → Accounts, sign in with your Apple ID, then Manage Certificates… → + → Apple Development.
 3. Install [Homebrew](https://brew.sh) if it isn't there.
@@ -27,6 +29,16 @@ Native Swift, no dependencies, macOS 26+. You build it from source with your own
 The build signs with the Apple Development certificate on whichever Mac it runs on, so there's nothing to edit for your own Apple ID.
 
 On the first Ctrl+Space, grant Screen Recording permission, reopen Huginn and try again.
+
+### Without Xcode
+
+Xcode is a big download. Huginn has no dependencies, so the Command Line Tools for macOS 26 (`xcode-select --install`) are enough to build it:
+
+```
+git clone https://github.com/AnthonyBuckleyThorp/huginn && cd huginn && make run-clt
+```
+
+This compiles with `swiftc` for your Mac's architecture, assembles the app with the same bundle ID and Info.plist keys as `project.yml`, signs it with your Apple Development certificate if you have one (otherwise ad hoc, so Screen Recording is asked for again after each rebuild), installs to /Applications and launches it. No XcodeGen or Homebrew needed. It skips `make setup`'s checks, so if Ctrl+Space does nothing, see the input-source note in `scripts/setup.sh`. Update with `git pull && make run-clt`.
 
 ## Update
 
