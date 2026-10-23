@@ -7,7 +7,7 @@ BUILT := build/Build/Products/Release/Huginn.app
 TEAM ?= $(shell ./scripts/team-id.sh)
 SIGNING := $(if $(TEAM),DEVELOPMENT_TEAM=$(TEAM),CODE_SIGN_IDENTITY=- DEVELOPMENT_TEAM=)
 
-.PHONY: setup project build install run clean
+.PHONY: setup project build install run clean build-clt install-clt run-clt
 
 setup:
 	@./scripts/setup.sh
@@ -25,6 +25,18 @@ install: build
 	ditto $(BUILT) $(APP)
 
 run: install
+	open $(APP)
+
+# Without Xcode: the Command Line Tools are enough (xcode-select --install).
+build-clt:
+	./scripts/build-clt.sh
+
+install-clt: build-clt
+	-pkill -x Huginn; sleep 0.5
+	rm -rf $(APP)
+	ditto build/clt/Huginn.app $(APP)
+
+run-clt: install-clt
 	open $(APP)
 
 clean:
